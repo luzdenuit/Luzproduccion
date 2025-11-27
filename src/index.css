@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+@import "keen-slider/keen-slider.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Luz de Nuit Design System - Boho Natural & Espiritual */
+
+@layer base {
+  :root {
+    /* Color Palette - Boho Natural */
+    --background: 42 30% 95%; /* Arena suave */
+    --foreground: 30 15% 25%; /* Marrón oscuro cálido */
+
+    --card: 40 25% 98%; /* Crema */
+    --card-foreground: 30 15% 25%;
+
+    --popover: 40 25% 98%;
+    --popover-foreground: 30 15% 25%;
+
+    --primary: 18 65% 55%; /* Terracota */
+    --primary-foreground: 40 25% 98%;
+
+    --secondary: 145 20% 65%; /* Verde salvia */
+    --secondary-foreground: 30 15% 25%;
+
+    --muted: 42 20% 90%; /* Arena clara */
+    --muted-foreground: 30 15% 45%;
+
+    --accent: 45 50% 60%; /* Dorado viejo */
+    --accent-foreground: 30 15% 25%;
+
+    --copper: 25 60% 50%; /* Cobre */
+    --copper-foreground: 40 25% 98%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 40 25% 98%;
+
+    --border: 42 20% 85%;
+    --input: 42 20% 92%;
+    --ring: 18 65% 55%;
+
+    --radius: 0.75rem;
+
+    /* Custom Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(42 30% 95%) 0%, hsl(40 25% 88%) 100%);
+    --gradient-warm: linear-gradient(180deg, hsl(18 65% 55% / 0.1) 0%, transparent 100%);
+    --gradient-night: linear-gradient(180deg, hsl(30 15% 15%) 0%, hsl(30 15% 25%) 100%);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(30 15% 25% / 0.08);
+    --shadow-golden: 0 8px 30px hsl(45 50% 60% / 0.2);
+    --shadow-card: 0 2px 15px hsl(30 15% 25% / 0.06);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 30 15% 15%; /* Noche profunda */
+    --foreground: 40 25% 95%;
+
+    --card: 30 15% 18%;
+    --card-foreground: 40 25% 95%;
+
+    --popover: 30 15% 18%;
+    --popover-foreground: 40 25% 95%;
+
+    --primary: 18 65% 60%;
+    --primary-foreground: 40 25% 98%;
+
+    --secondary: 145 20% 45%;
+    --secondary-foreground: 40 25% 95%;
+
+    --muted: 30 15% 22%;
+    --muted-foreground: 40 20% 65%;
+
+    --accent: 45 50% 55%;
+    --accent-foreground: 30 15% 15%;
+
+    --copper: 25 60% 50%;
+    --copper-foreground: 40 25% 98%;
+
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 40 25% 98%;
+
+    --border: 30 15% 25%;
+    --input: 30 15% 22%;
+    --ring: 18 65% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    overflow-y: auto;
+  }
+
+  html, body {
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Boho Natural Utilities */
+  .texture-paper {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  .glow-golden {
+    box-shadow: 0 0 40px hsl(var(--accent) / 0.3);
+  }
+
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-golden);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* 💎 Efecto cristal universal */
+.glass {
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 💎 Sombra suave premium */
+.shadow-crystal {
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ✨ Glow sutil al hacer hover */
+.hover-glow:hover {
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  transition: all 0.25s ease;
+}
+
