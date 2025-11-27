@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient"; // 👈 import Supabase
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,6 +36,7 @@ const Login = () => {
         });
         if (error) throw error;
         toast.success("Sesión iniciada correctamente 🌙");
+        navigate("/");
       } else {
         // 👇 REGISTRO REAL
         const { data, error } = await supabase.auth.signUp({
@@ -46,9 +48,11 @@ const Login = () => {
         });
         if (error) throw error;
         toast.success("Cuenta creada exitosamente ✨");
+        navigate("/");
       }
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
