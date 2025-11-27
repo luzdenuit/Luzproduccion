@@ -13,24 +13,10 @@ import { useNavigate } from "react-router-dom";
 import SmartSelect from "@/components/admin/SmartSelect";
 import ColorPickerSelect from "@/components/admin/ColorPickerSelect";
 
-import {
-  X,
-  Upload,
-  PlusCircle,
-  ImagePlus,
-  Move,
-  Package,
-} from "lucide-react";
+import { X, Upload, ImagePlus, Move, Package } from "lucide-react";
 
 import { useDropzone } from "react-dropzone";
 
-// Utilidad para normalizar valores
-const normalize = (str: string) =>
-  str
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim()
-    .replace(/^\w/, (c) => c.toUpperCase());
 
 export default function CrearProducto() {
   const navigate = useNavigate();
@@ -51,14 +37,7 @@ export default function CrearProducto() {
     fragancia: [] as string[],
   });
 
-  // ------------ Selects con añadir nuevo valor ------------
-  const [nuevoValor, setNuevoValor] = useState({
-    tipo_cera: "",
-    material_mecha: "",
-    tamano: "",
-    color: "",
-    fragancia: "",
-  });
+  
 
   // ------------ Imagen principal ------------
   const [imagenPrincipalFile, setImagenPrincipalFile] = useState<File | null>(
@@ -260,69 +239,6 @@ export default function CrearProducto() {
 
     setLoading(false);
   };
-
-  // ---------------- Render select estilo Shopify ----------------
- const renderSelect = (
-  nombre: keyof typeof formData,
-  label: string,
-  opcionesBD: string[]
-) => {
-  const [showList, setShowList] = useState(false);
-
-  const handleSelect = (valor: string) => {
-    setFormData({ ...formData, [nombre]: valor });
-    setShowList(false); // cerrar lista inmediatamente
-  };
-
-  return (
-    <div className="space-y-1">
-      <Label>{label}</Label>
-
-      <div className="relative">
-        <Input
-          name={nombre}
-          value={formData[nombre] || ""}
-          onFocus={() => setShowList(true)}
-          onBlur={() => setTimeout(() => setShowList(false), 120)}
-          onChange={(e) => {
-            setFormData({ ...formData, [nombre]: e.target.value });
-            setShowList(true);
-          }}
-          placeholder="Escribe o selecciona…"
-          autoComplete="off"
-        />
-
-        {showList && formData[nombre] && (
-          <div className="absolute z-20 w-full bg-white shadow-md border rounded-lg mt-1 max-h-48 overflow-auto">
-            {opcionesBD
-              .filter((op) =>
-                op.toLowerCase().includes(formData[nombre].toLowerCase())
-              )
-              .map((op) => (
-                <div
-                  key={op}
-                  className="px-3 py-2 cursor-pointer hover:bg-muted transition"
-                  onMouseDown={() => handleSelect(op)} // evita blur antes de seleccionar
-                >
-                  {op}
-                </div>
-              ))}
-
-            {/* Si no hay coincidencias, es un valor nuevo */}
-            {opcionesBD.filter((op) =>
-              op.toLowerCase().includes((formData[nombre] as string).toLowerCase())
-            ).length === 0 && (
-              <div className="px-3 py-2 text-muted-foreground text-sm">
-                (Nuevo valor)
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
 
   // ---------------- UI ----------------
 return (

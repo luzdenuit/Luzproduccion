@@ -86,7 +86,7 @@ export default function CrearCategoria() {
         </form>
       </div>
 
-      <Footer />
+     
     </div>
   );
 }

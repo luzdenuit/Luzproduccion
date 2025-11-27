@@ -111,7 +111,7 @@ export default function EditarProducto() {
      🖼 Subir imagen opcional
   ------------------------------------------*/
   const uploadImage = async () => {
-    if (!imageFile) return formData.imagen_principal; // Mantener la actual
+    if (!imageFile) return previewPrincipal; // Mantener la actual
 
     const fileExt = imageFile.name.split(".").pop();
     const fileName = `producto_${Date.now()}.${fileExt}`;
@@ -123,7 +123,7 @@ export default function EditarProducto() {
 
     if (uploadError) {
       toast.error("Error subiendo la imagen");
-      return formData.imagen_principal; // Mantener la anterior
+      return previewPrincipal; // Mantener la anterior
     }
 
     const { data } = supabase.storage.from("imagenes").getPublicUrl(filePath);

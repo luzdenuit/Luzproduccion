@@ -293,8 +293,7 @@ export default function ListaPedidos() {
               <XAxis dataKey="mes" tick={{ fill: axisTickColor, fontSize: isMobile ? 11 : 12 }} />
               <YAxis allowDecimals={false} tick={{ fill: axisTickColor, fontSize: isMobile ? 11 : 12 }} />
               <ReTooltip contentStyle={tooltipStyle} itemStyle={{ color: tooltipStyle.color }} labelStyle={{ color: tooltipStyle.color }} wrapperStyle={{ outline: "none" }} />
-              <Bar dataKey="total" fill="#f59e0b" />
-              <Bar dataKey="total" fill="#f59e0b" cursor={{ fill: isDark ? "#1f2937" : "#f3f4f6", opacity: 0.2 }} />
+              <Bar dataKey="total" fill="#f59e0b" background={{ fill: isDark ? "#1f2937" : "#f3f4f6", opacity: 0.2 }} />
             </BarChart>
           </ResponsiveContainer>
         </div>
