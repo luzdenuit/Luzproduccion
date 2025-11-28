@@ -45,6 +45,15 @@ export default function RichTextEditor({ value, onChange, placeholder = "Escribe
     },
   });
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const html = e.clipboardData.getData("text/html");
+    const text = e.clipboardData.getData("text/plain");
+    if (html || /<\w+[^>]*>.*<\/\w+>/.test(text)) {
+      e.preventDefault();
+      editor?.chain().focus().insertContent(html || text).run();
+    }
+  };
+
   const setLink = () => {
     if (!editor) return;
     const previousUrl = editor.getAttributes("link").href as string | undefined;
@@ -189,7 +198,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Escribe
       </div>
 
       <div className="max-h-[65vh] overflow-auto">
-        <EditorContent editor={editor} />
+        <EditorContent editor={editor} onPaste={handlePaste} />
       </div>
     </div>
   );

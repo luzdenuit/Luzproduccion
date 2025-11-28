@@ -890,7 +890,17 @@ const CrearPost = () => {
                 </div>
 
                 <div className="max-h-[65vh] overflow-auto">
-                  <EditorContent editor={editor} />
+                  <EditorContent
+                    editor={editor}
+                    onPaste={(e) => {
+                      const html = e.clipboardData.getData("text/html");
+                      const text = e.clipboardData.getData("text/plain");
+                      if (html || /<\w+[^>]*>.*<\/\w+>/.test(text)) {
+                        e.preventDefault();
+                        editor?.chain().focus().insertContent(html || text).run();
+                      }
+                    }}
+                  />
                 </div>
               </div>
             )}
