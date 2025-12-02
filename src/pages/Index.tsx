@@ -132,7 +132,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               {[
                 { icon: Sparkles, title: "Hecho a mano", text: "Con calma y propósito" },
-                { icon: Leaf, title: "Natural y vegano", text: "Ingredientes puros" },
+                { icon: Leaf, title: "Ceras y parafinas", text: "Ingredientes de calida" },
                 { icon: Heart, title: "Energía con intención", text: "Creadas con amor" },
               ].map((item, index) => (
                 <motion.div

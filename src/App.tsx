@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
+import { Phone } from "lucide-react";
 
 // 🌙 Páginas públicas
 import Index from "./pages/Index";
@@ -506,6 +507,15 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
 
           </Routes>
+          <a
+            href="https://wa.me/+573196791189?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n!"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            className="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center rounded-full bg-green-500 text-white p-4 shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+          >
+            <Phone className="w-6 h-6" />
+          </a>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

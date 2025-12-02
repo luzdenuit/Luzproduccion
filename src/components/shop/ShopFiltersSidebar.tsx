@@ -206,7 +206,7 @@ export default function ShopFiltersSidebar(props: Props) {
 
           {/* ------------------- MATERIALES (JOIN) ------------------- */}
           <div>
-            <h3 className="font-display text-xl mb-2 pb-1 border-b border-border/60">Materiales</h3>
+            <h3 className="font-display text-xl mb-2 pb-1 border-b border-border/60">Materiale de mecha</h3>
 
             <div className="space-y-2">
               {materialesSafe.map((m) => (

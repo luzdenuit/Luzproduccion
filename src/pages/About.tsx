@@ -126,9 +126,9 @@ const About = () => {
                 },
                 {
                   icon: Leaf,
-                  title: "Natural y vegano",
+                  title: "Ceras y parafinas",
                   description:
-                    "Ingredientes de origen vegetal, respetuosos con tu espacio y la tierra.",
+                    "Ingredientes de alta calidad y larga duración.",
                 },
                 {
                   icon: Heart,
