@@ -251,7 +251,7 @@ const EditarPost = () => {
 
       const slug = formData.slug || slugify(formData.titulo);
 
-      const updatePayload: any = {
+      const updatePayload: Record<string, unknown> = {
         titulo: formData.titulo,
         slug,
         categoria: formData.categoria || null,
@@ -270,7 +270,8 @@ const EditarPost = () => {
         .eq("id", id);
 
       if (error) {
-        if ((error as any).code === "23505") {
+        const pgError = error as { code?: string };
+        if (pgError.code === "23505") {
           toast.error("Ya existe un post con ese slug. Cambia el título.");
         } else {
           console.error(error);
@@ -484,7 +485,17 @@ const EditarPost = () => {
                     </div>
                   </div>
                   <div className="max-h-[65vh] overflow-auto">
-                    <EditorContent editor={editor} />
+                    <EditorContent
+                      editor={editor}
+                      onPaste={(e) => {
+                        const html = e.clipboardData.getData("text/html");
+                        const text = e.clipboardData.getData("text/plain");
+                        if (html || /<\w+[^>]*>.*<\/\w+>/.test(text)) {
+                          e.preventDefault();
+                          editor?.chain().focus().insertContent(html || text).run();
+                        }
+                      }}
+                    />
                   </div>
                 </div>
               )}
