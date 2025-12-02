@@ -146,20 +146,21 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
 
   // Estos hooks deben llamarse SIEMPRE en el mismo orden
   const totalItems = useMemo(() => items.reduce((s, it) => s + Number(it.cantidad ?? 1), 0), [items]);
-  const subtotal = useMemo(() => items.reduce((s, it) => s + Number(it.precio) * Number(it.cantidad ?? 1), 0), [items]);
-  const ivaCalc = useMemo(() => subtotal * ivaRate, [subtotal, ivaRate]);
+  const itemsTotal = useMemo(() => items.reduce((s, it) => s + Number(it.precio) * Number(it.cantidad ?? 1), 0), [items]);
+  const subtotal = useMemo(() => itemsTotal / (1 + ivaRate), [itemsTotal, ivaRate]);
+  const ivaCalc = useMemo(() => itemsTotal - subtotal, [itemsTotal, subtotal]);
   const envioCosto = useMemo(() => Number(pedido?.metodo_envio?.precio ?? 0), [pedido]);
   const cuponDescuento = useMemo(() => {
     if (!pedido?.cupon) return 0;
     const tipo = pedido.cupon.tipo;
     const val = Number(pedido.cupon.valor ?? 0);
-    const base = subtotal + ivaCalc + envioCosto;
+    const base = itemsTotal + envioCosto;
     return tipo === "porcentaje" ? base * (val / 100) : val;
   }, [pedido, subtotal, ivaCalc, envioCosto]);
   const totalCalc = useMemo(() => {
-    const t = subtotal + ivaCalc + envioCosto - cuponDescuento;
+    const t = itemsTotal + envioCosto - cuponDescuento;
     return t < 0 ? 0 : t;
-  }, [subtotal, ivaCalc, envioCosto, cuponDescuento]);
+  }, [itemsTotal, envioCosto, cuponDescuento]);
 
   if (loading) return <p className="p-8">Cargando...</p>;
 

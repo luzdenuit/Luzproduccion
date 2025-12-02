@@ -56,8 +56,8 @@ export function CheckoutProvider({ children }: { children: React.ReactNode }) {
   };
 
 
-  // 🛒 Subtotal reactivo
-const subtotal = useMemo(() => {
+// 🛒 Total de items (precio incluye IVA)
+const itemsTotal = useMemo(() => {
   return cart.reduce((s, i) => s + i.precio * i.qty, 0);
 }, [cart]);
 
@@ -78,20 +78,22 @@ const useIvaRate = () => {
   return rate;
 };
 
-// Calcular IVA siempre en base al subtotal
+// Calcular base (subtotal) e IVA a partir de precio con IVA incluido
 const ivaRate = useIvaRate();
+const subtotal = useMemo(() => {
+  return itemsTotal / (1 + ivaRate);
+}, [itemsTotal, ivaRate]);
 const iva = useMemo(() => {
-  return subtotal * ivaRate;
-}, [subtotal, ivaRate]);
+  return itemsTotal - subtotal;
+}, [itemsTotal, subtotal]);
 
-// Total final = subtotal + iva + envío - cupón
+// Total final = total de items (con IVA) + envío - cupón
 const total = useMemo(() => {
   const descuento = cupon?.descuento || 0;
   const costoEnvio = envio?.costo || 0;
-
-  let t = subtotal + iva + costoEnvio - descuento;
+  let t = itemsTotal + costoEnvio - descuento;
   return t < 0 ? 0 : t;
-}, [subtotal, iva, envio.costo, cupon.descuento]);
+}, [itemsTotal, envio.costo, cupon.descuento]);
 
 
   // 🔥 PROCESAR PEDIDO (logueado o invitado)

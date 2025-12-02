@@ -210,7 +210,7 @@ export default function Pago() {
   const imagenPrincipal =
     pedido.pedido_items?.[0]?.productos?.imagen_principal || null;
 
-  const subtotalCalc = Array.isArray(pedido.pedido_items)
+  const itemsTotalCalc = Array.isArray(pedido.pedido_items)
     ? pedido.pedido_items.reduce(
         (s: number, it: any) => s + Number(it.precio) * Number(it.cantidad ?? 1),
         0,
@@ -219,10 +219,11 @@ export default function Pago() {
 
   const envioCostoCalc = Number(pedido.metodo_envio?.precio ?? 0);
 
-  const ivaCalc = subtotalCalc * ivaRate;
+  const subtotalCalc = itemsTotalCalc / (1 + ivaRate);
+  const ivaCalc = itemsTotalCalc - subtotalCalc;
 
   const cuponCodigo = pedido.cupon?.codigo ?? null;
-  const discountBase = subtotalCalc + ivaCalc + envioCostoCalc;
+  const discountBase = itemsTotalCalc + envioCostoCalc;
   const cuponDescuentoCalc = pedido.cupon
     ? (pedido.cupon.tipo === "porcentaje"
         ? discountBase * (Number(pedido.cupon.valor) / 100)
@@ -232,7 +233,7 @@ export default function Pago() {
   const totalCalc =
     typeof pedido.total === "number"
       ? pedido.total
-      : Math.max(subtotalCalc + ivaCalc + envioCostoCalc - cuponDescuentoCalc, 0);
+      : Math.max(itemsTotalCalc + envioCostoCalc - cuponDescuentoCalc, 0);
 
   // ============================
   // UI — LUZ DE NUIT ✨
