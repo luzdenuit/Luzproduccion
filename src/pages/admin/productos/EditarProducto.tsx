@@ -28,6 +28,7 @@ export default function EditarProducto() {
   const [previewPrincipal, setPreviewPrincipal] = useState<string | null>(null);
 
   const [categorias, setCategorias] = useState<any[]>([]);
+  const [rituales, setRituales] = useState<any[]>([]);
 
   const [valoresBD, setValoresBD] = useState({
     tipo_cera: [] as string[],
@@ -45,6 +46,7 @@ export default function EditarProducto() {
     descripcion: "",
     fragancia: "",
     categoria_id: "",
+    ritual_id: "",
     precio: "",
     peso_gramos: "",
     duracion_horas: "",
@@ -89,6 +91,7 @@ export default function EditarProducto() {
       descripcion: data.descripcion ?? data.descripcion_larga ?? data.descripcion_corta ?? "",
       fragancia: data.fragancia ?? "",
       categoria_id: data.categoria_id ?? "",
+      ritual_id: data.ritual_id ?? "",
       precio: data.precio ?? "",
       peso_gramos: data.peso_gramos ?? "",
       duracion_horas: data.duracion_horas ?? "",
@@ -105,6 +108,11 @@ export default function EditarProducto() {
     setGaleriaPreviews(Array.isArray(data.galeria_imagenes) ? data.galeria_imagenes : []);
 
     setLoading(false);
+  };
+
+  const loadRituales = async () => {
+    const { data, error } = await supabase.from("rituales").select("*");
+    if (!error) setRituales(data || []);
   };
 
   /* -----------------------------------------
@@ -169,6 +177,7 @@ export default function EditarProducto() {
         stock: parseInt(formData.stock),
         imagen_principal: nuevaImagen,
         categoria_id: formData.categoria_id,
+        ritual_id: formData.ritual_id,
         tipo_cera: formData.tipo_cera,
         material_mecha: formData.material_mecha,
         tamano: formData.tamano,
@@ -196,6 +205,7 @@ export default function EditarProducto() {
   useEffect(() => {
     fetchCategorias();
     fetchProducto();
+    loadRituales();
     loadDistinctValues();
   }, []);
 
@@ -320,6 +330,21 @@ export default function EditarProducto() {
                         {categorias.map((c) => (
                           <SelectItem key={c.id} value={String(c.id)}>
                             {c.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label>Ritual</Label>
+                    <Select value={formData.ritual_id} onValueChange={(val) => setFormData({ ...formData, ritual_id: val })}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Seleccione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {rituales.map((r) => (
+                          <SelectItem key={r.id} value={String(r.id)}>
+                            {r.nombre}
                           </SelectItem>
                         ))}
                       </SelectContent>

@@ -309,9 +309,9 @@ export default function ProductoDetalle() {
                 <div className="flex items-start gap-3">
                   <Leaf className="w-6 h-6 text-secondary mt-1" />
                   <div>
-                    <h3 className="font-semibold">100% Natural y Vegano</h3>
+                    <h3 className="font-semibold">Ceras y parafinas</h3>
                     <p className="text-sm text-muted-foreground">
-                      Ceras naturales y aceites esenciales puros
+                      Ingredientes de calida
                     </p>
                   </div>
                 </div>
