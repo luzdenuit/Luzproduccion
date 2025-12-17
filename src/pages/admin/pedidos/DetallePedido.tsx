@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { ShoppingCart } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
 
 export default function DetallePedido() {
   const { id } = useParams();
@@ -199,7 +200,7 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-4 shadow-sm">
             <p className="text-sm text-muted-foreground">Total</p>
-            <p className="text-xl font-semibold">${Number(pedido.total ?? 0).toFixed(2)}</p>
+            <p className="text-xl font-semibold">${formatPrice(Number(pedido.total ?? 0))}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-4 shadow-sm">
             <p className="text-sm text-muted-foreground">Productos</p>
@@ -221,7 +222,7 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
           <p><strong>Ciudad:</strong> {pedido.ciudad}</p>
           <p><strong>País:</strong> {pedido.pais}</p>
           <p><strong>Código Postal:</strong> {pedido.codigo_postal}</p>
-          <p><strong>Total registrado:</strong> ${Number(pedido.total ?? 0).toFixed(2)}</p>
+          <p><strong>Total registrado:</strong> ${formatPrice(Number(pedido.total ?? 0))}</p>
 
           {/* Método de pago */}
           <p className="mt-4">
@@ -290,7 +291,7 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
 
           <div className="mt-4 space-y-2 text-sm">
             <p>
-              <strong>Método de envío:</strong> {pedido.metodo_envio ? `${pedido.metodo_envio.nombre} ($${Number(pedido.metodo_envio.precio ?? 0).toFixed(2)})` : "No especificado"}
+              <strong>Método de envío:</strong> {pedido.metodo_envio ? `${pedido.metodo_envio.nombre} ($${formatPrice(Number(pedido.metodo_envio.precio ?? 0))})` : "No especificado"}
             </p>
             <p>
               <strong>Cupón:</strong> {pedido.cupon ? `${pedido.cupon.codigo}` : "No aplicado"}
@@ -302,7 +303,7 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
         <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6 shadow-sm overflow-x-auto">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display text-xl">Productos</h2>
-            <p className="text-sm text-muted-foreground">Subtotal: ${subtotal.toFixed(2)}</p>
+            <p className="text-sm text-muted-foreground">Subtotal: ${formatPrice(subtotal)}</p>
           </div>
 
           <table className="w-full min-w-[600px] text-sm">
@@ -332,7 +333,7 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
                   </td>
 
                   <td className="p-2">{item.nombre}</td>
-                  <td className="p-2">${Number(item.precio ?? 0).toFixed(2)}</td>
+                  <td className="p-2">${formatPrice(Number(item.precio ?? 0))}</td>
                   <td className="p-2">{item.cantidad}</td>
                 </tr>
               ))}
@@ -346,13 +347,13 @@ if (nuevoEstado === "pagado" && oldEstado !== "pagado") {
         <div className="bg-card border border-border rounded-xl p-6 shadow-sm md:col-span-1">
           <h2 className="font-display text-xl mb-4">Resumen</h2>
             <div className="space-y-2 text-sm">
-            <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span>IVA ({Math.round(ivaRate * 100)}%)</span><span>${ivaCalc.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span>Envío</span><span>{envioCosto > 0 ? `$${envioCosto.toFixed(2)}` : "Gratis"}</span></div>
+            <div className="flex justify-between"><span>Subtotal</span><span>${formatPrice(subtotal)}</span></div>
+            <div className="flex justify-between"><span>IVA ({Math.round(ivaRate * 100)}%)</span><span>${formatPrice(ivaCalc)}</span></div>
+            <div className="flex justify-between"><span>Envío</span><span>{envioCosto > 0 ? `$${formatPrice(envioCosto)}` : "Gratis"}</span></div>
             {cuponDescuento > 0 && (
-              <div className="flex justify-between text-green-700 dark:text-green-300"><span>Cupón aplicado{pedido.cupon?.codigo ? ` (${pedido.cupon.codigo})` : ""}</span><span>- ${cuponDescuento.toFixed(2)}</span></div>
+              <div className="flex justify-between text-green-700 dark:text-green-300"><span>Cupón aplicado{pedido.cupon?.codigo ? ` (${pedido.cupon.codigo})` : ""}</span><span>- ${formatPrice(cuponDescuento)}</span></div>
             )}
-            <div className="flex justify-between font-semibold pt-2 border-t"><span>Total</span><span>${totalCalc.toFixed(2)}</span></div>
+            <div className="flex justify-between font-semibold pt-2 border-t"><span>Total</span><span>${formatPrice(totalCalc)}</span></div>
           </div>
         </div>
       </div>

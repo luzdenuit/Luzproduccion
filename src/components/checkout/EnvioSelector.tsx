@@ -4,6 +4,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Truck, Zap, Package, Info } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useCheckout } from "@/context/CheckoutContext";
+import { formatPrice } from "@/lib/utils";
 //
 
 export default function EnvioSelector() {
@@ -101,7 +102,7 @@ export default function EnvioSelector() {
 
             <span className="text-sm font-medium">{m.nombre}</span>
             <span className="text-sm font-semibold text-primary">
-              {Number(m.precio) === 0 ? "Gratis" : `$${Number(m.precio).toFixed(2)}`}
+              {Number(m.precio) === 0 ? "Gratis" : `$${formatPrice(Number(m.precio))}`}
             </span>
 
             

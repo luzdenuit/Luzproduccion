@@ -6,6 +6,7 @@ import { Lock } from "lucide-react";
 import { useCheckout } from "@/context/CheckoutContext";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "@/lib/utils";
 
 export default function ConfirmacionBox() {
   const navigate = useNavigate();
@@ -91,30 +92,30 @@ export default function ConfirmacionBox() {
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-muted-foreground">Subtotal</span>
-          <span className="font-semibold">${sub.toFixed(2)}</span>
+          <span className="font-semibold">${formatPrice(sub)}</span>
         </div>
 
         <div className="flex justify-between">
           <span className="text-muted-foreground">Envío</span>
           <span className="font-semibold">
-            {costoEnvio === 0 ? "Gratis" : `$${costoEnvio.toFixed(2)}`}
+            {costoEnvio === 0 ? "Gratis" : `$${formatPrice(costoEnvio)}`}
           </span>
         </div>
         {/* IVA dinámico */}
         <div className="flex justify-between">
           <span className="text-muted-foreground">IVA ({Math.round((ivaRate || 0) * 100)}%)</span>
-          <span className="font-semibold">${iva.toFixed(2)}</span>
+          <span className="font-semibold">${formatPrice(iva)}</span>
         </div>
         {descCupon > 0 && (
           <div className="flex justify-between text-green-600 dark:text-green-400">
             <span>Cupón aplicado ({codigoCupon})</span>
-            <span>- ${descCupon.toFixed(2)}</span>
+            <span>- ${formatPrice(descCupon)}</span>
           </div>
         )}
 
         <div className="border-t pt-3 mt-3 flex justify-between text-lg font-semibold">
           <span>Total</span>
-          <span className="text-primary">${tot.toFixed(2)}</span>
+          <span className="text-primary">${formatPrice(tot)}</span>
         </div>
       </div>
 

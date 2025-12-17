@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { formatPrice } from "@/lib/utils";
 
 
 function OrderStatusTimeline({ estadoActual }: { estadoActual: string }) {
@@ -219,7 +220,13 @@ export default function Pago() {
 
   const envioCostoCalc = Number(pedido.metodo_envio?.precio ?? 0);
 
-  const subtotalCalc = itemsTotalCalc / (1 + ivaRate);
+  const subtotalCalc = Array.isArray(pedido.pedido_items)
+    ? pedido.pedido_items.reduce((s: number, it: any) => {
+        const lineTotal = Number(it.precio) * Number(it.cantidad ?? 1);
+        const netLine = Math.round((lineTotal / (1 + ivaRate)) * 100) / 100;
+        return s + netLine;
+      }, 0)
+    : 0;
   const ivaCalc = itemsTotalCalc - subtotalCalc;
 
   const cuponCodigo = pedido.cupon?.codigo ?? null;
@@ -400,14 +407,14 @@ export default function Pago() {
               </div>
               {item.productos?.precio && Number(item.productos.precio) > Number(item.precio) ? (
                 <div className="text-right">
-                  <div className="text-sm text-muted-foreground line-through">${Number(item.productos.precio).toFixed(2)}</div>
-                  <div className="font-semibold">${Number(item.precio).toFixed(2)}</div>
+                  <div className="text-sm text-muted-foreground line-through">${formatPrice(Number(item.productos.precio))}</div>
+                  <div className="font-semibold">${formatPrice(Number(item.precio))}</div>
                   <div className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full inline-block mt-1">
                     -{Math.round(((Number(item.productos.precio) - Number(item.precio)) / Number(item.productos.precio)) * 100)}%
                   </div>
                 </div>
               ) : (
-                <p className="font-semibold">${Number(item.precio).toFixed(2)}</p>
+                <p className="font-semibold">${formatPrice(Number(item.precio))}</p>
               )}
             </div>
           ))}
@@ -471,20 +478,20 @@ export default function Pago() {
   {/* Subtotal */}
   <div className="flex justify-between mb-2">
     <span>Subtotal</span>
-    <span className="font-semibold">${subtotalCalc.toFixed(2)}</span>
+    <span className="font-semibold">${formatPrice(subtotalCalc)}</span>
   </div>
 
   {/* IVA dinámico */}
   <div className="flex justify-between mb-2">
     <span>IVA ({Math.round(ivaRate * 100)}%)</span>
-    <span className="font-semibold">${ivaCalc.toFixed(2)}</span>
+    <span className="font-semibold">${formatPrice(ivaCalc)}</span>
   </div>
 
   {/* Cupón aplicado (estilo igual a ResumenPedido) */}
   {cuponCodigo && cuponDescuentoCalc > 0 && (
     <div className="flex justify-between text-base text-green-600 mb-2">
       <span>Cupón aplicado ({cuponCodigo})</span>
-      <span className="font-semibold">- ${cuponDescuentoCalc.toFixed(2)}</span>
+      <span className="font-semibold">- ${formatPrice(cuponDescuentoCalc)}</span>
     </div>
   )}
 
@@ -494,7 +501,7 @@ export default function Pago() {
     <span className="font-semibold">
       {pedido.metodo_envio?.precio === 0
         ? "Gratis"
-        : `$${Number(pedido.metodo_envio?.precio).toFixed(2)}`
+        : `$${formatPrice(Number(pedido.metodo_envio?.precio))}`
       }
     </span>
   </div>
@@ -509,7 +516,7 @@ export default function Pago() {
   {/* Total */}
   <div className="flex justify-between text-lg font-bold border-t border-border pt-3">
     <span>Total</span>
-    <span>${totalCalc.toFixed(2)}</span>
+    <span>${formatPrice(totalCalc)}</span>
   </div>
 
   <p className="text-xs text-muted-foreground mt-2">
