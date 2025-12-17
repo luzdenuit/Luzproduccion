@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
 import { Pencil, Trash2, PlusCircle, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
+import { formatPrice } from "@/lib/utils";
 
 export default function ListaEnvios() {
   const [envios, setEnvios] = useState([]);
@@ -76,7 +77,7 @@ export default function ListaEnvios() {
             <div>
               <p className="font-bold text-lg text-amber-700 dark:text-amber-300">{e.nombre}</p>
               <p className="text-muted-foreground">{e.descripcion}</p>
-              <p className="font-semibold mt-1">${e.precio.toFixed(2)}</p>
+              <p className="font-semibold mt-1">${formatPrice(e.precio)}</p>
             </div>
 
             <div className="flex gap-3">

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
 
 export default function PedidosUsuario() {
   const [pedidos, setPedidos] = useState<any[]>([]);
@@ -116,7 +117,7 @@ export default function PedidosUsuario() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">Total</p>
-                    <p className="text-lg font-semibold">${Number(p.total).toFixed(2)}</p>
+                    <p className="text-lg font-semibold">${formatPrice(Number(p.total))}</p>
                   </div>
                 </div>
 

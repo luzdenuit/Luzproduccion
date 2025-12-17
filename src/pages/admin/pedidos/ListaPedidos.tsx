@@ -20,8 +20,20 @@ import { useTheme } from "next-themes";
 
 import Navbar from "@/components/Navbar";
 
+import { formatPrice } from "@/lib/utils";
+
+interface Pedido {
+  id: string;
+  creado_en: string;
+  total: number;
+  estado: string;
+  nombre?: string;
+  apellido?: string;
+  metodo_pago?: string;
+}
+
 export default function ListaPedidos() {
-  const [pedidos, setPedidos] = useState<any[]>([]);
+  const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [estadoFiltro, setEstadoFiltro] = useState<string>("todos");
@@ -244,12 +256,12 @@ export default function ListaPedidos() {
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-6 shadow-sm">
           <p className="text-sm text-muted-foreground">Ingresos</p>
-          <p className="text-3xl font-semibold">${totalIngresos.toFixed(2)}</p>
+          <p className="text-3xl font-semibold">${formatPrice(totalIngresos)}</p>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-6 shadow-sm">
           <p className="text-sm text-muted-foreground">Ticket promedio</p>
-          <p className="text-3xl font-semibold">${ticketPromedio.toFixed(2)}</p>
+          <p className="text-3xl font-semibold">${formatPrice(ticketPromedio)}</p>
         </motion.div>
       </div>
 
@@ -311,7 +323,7 @@ export default function ListaPedidos() {
               </div>
               <div className="md:col-span-4"></div>
               <div className="md:col-span-2 flex justify-end items-center gap-3 shrink-0">
-                <p className="text-sm font-semibold whitespace-nowrap">${Number(p.total ?? 0).toFixed(2)}</p>
+                <p className="text-sm font-semibold whitespace-nowrap">{formatPrice(Number(p.total ?? 0))}</p>
                 <Link to={`/admin/pedidos/${p.id}`}> 
                   <Button variant="outline" size="sm">Ver</Button>
                 </Link>
@@ -337,7 +349,7 @@ export default function ListaPedidos() {
                 <tr key={p.id} className="border-b border-border hover:bg-muted/40 transition-colors">
                   <td className="p-4 font-mono whitespace-nowrap">{p.id.slice(0, 8)}...</td>
                   <td className="p-4">{p.nombre} {p.apellido}</td>
-                  <td className="p-4 font-semibold whitespace-nowrap">${Number(p.total ?? 0).toFixed(2)}</td>
+                  <td className="p-4 font-semibold whitespace-nowrap">${formatPrice(Number(p.total ?? 0))}</td>
                   <td className="p-4">{getEstadoBadge(p.estado)}</td>
                   <td className="p-4 text-muted-foreground whitespace-nowrap">{new Date(p.creado_en).toLocaleDateString()}</td>
                   <td className="p-4 whitespace-nowrap">

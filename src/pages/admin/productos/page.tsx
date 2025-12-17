@@ -23,6 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { formatPrice } from "@/lib/utils";
 
 import {
   ResponsiveContainer,
@@ -351,11 +352,10 @@ export default function ListaProductos() {
                   Precio promedio
                 </p>
                 <p className="text-3xl font-display text-amber-700 dark:text-amber-300 mt-1">
-                  ${analytics.precioPromedio.toFixed(2)}
+                  ${formatPrice(analytics.precioPromedio)}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Mín: ${analytics.precioMin.toFixed(0)} – Máx: $
-                  {analytics.precioMax.toFixed(0)}
+                  Mín: ${formatPrice(analytics.precioMin)} – Máx: ${formatPrice(analytics.precioMax)}
                 </p>
               </motion.div>
             </div>

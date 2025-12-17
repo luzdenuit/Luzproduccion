@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 import { Leaf, Sparkles, Flame, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { formatPrice } from "@/lib/utils";
 
 // ⭐ NUEVOS COMPONENTES
 import ReviewForm from "@/components/ReviewForm";
@@ -259,12 +260,12 @@ export default function ProductoDetalle() {
               <div className="mb-8">
                 {precioConDescuento ? (
                   <div className="flex items-end gap-3">
-                    <span className="text-2xl text-muted-foreground line-through">${producto.precio.toFixed(2)}</span>
-                    <span className="text-3xl font-bold text-foreground">${precioConDescuento.toFixed(2)}</span>
+                    <span className="text-2xl text-muted-foreground line-through">${formatPrice(producto.precio)}</span>
+                    <span className="text-3xl font-bold text-foreground">${formatPrice(precioConDescuento)}</span>
                   </div>
                 ) : (
                   <p className="text-3xl font-bold text-foreground">
-                    ${producto.precio.toFixed(2)}
+                    ${formatPrice(producto.precio)}
                   </p>
                 )}
 

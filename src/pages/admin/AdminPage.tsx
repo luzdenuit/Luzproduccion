@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { formatPrice } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ShoppingCart, DollarSign, TrendingUp, PieChart, BarChart3, Tag, Users, Mail, MessageSquare, Star, Info } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -375,14 +376,14 @@ export default function AdminPage() {
             <p className="text-sm text-muted-foreground flex items-center gap-2"><DollarSign className="w-4 h-4 text-green-600" /> Ingresos totales</p>
             <TooltipProvider><Tooltip><TooltipTrigger asChild><Info className="w-4 h-4 text-muted-foreground" /></TooltipTrigger><TooltipContent>Suma de total en pedidos</TooltipContent></Tooltip></TooltipProvider>
           </div>
-          <p className="text-3xl font-semibold mt-2">{formatMoney(ventas.totalIngresos)}</p>
+          <p className="text-3xl font-semibold mt-2">${formatPrice(ventas.totalIngresos)}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <p className="text-sm text-muted-foreground flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-600" /> Ticket promedio</p>
             <TooltipProvider><Tooltip><TooltipTrigger asChild><Info className="w-4 h-4 text-muted-foreground" /></TooltipTrigger><TooltipContent>Ingresos / total de pedidos</TooltipContent></Tooltip></TooltipProvider>
           </div>
-          <p className="text-3xl font-semibold mt-2">{formatMoney(ventas.ticketPromedio)}</p>
+          <p className="text-3xl font-semibold mt-2">${formatPrice(ventas.ticketPromedio)}</p>
         </motion.div>
       </div>
 
@@ -394,7 +395,7 @@ export default function AdminPage() {
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
               <XAxis dataKey="fecha" tick={{ fill: axisTickColor }} />
               <YAxis yAxisId="left" allowDecimals={false} tick={{ fill: axisTickColor }} />
-              <YAxis yAxisId="right" orientation="right" tickFormatter={formatMoney as any} tick={{ fill: axisTickColor }} />
+              <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `$${formatPrice(v)}`} tick={{ fill: axisTickColor }} />
               <ChartTooltip contentStyle={tooltipStyle} wrapperStyle={{ outline: "none" }} />
               <Legend />
               <Line yAxisId="left" type="monotone" dataKey="pedidos" stroke="#f59e0b" name="Pedidos" />
@@ -502,7 +503,7 @@ export default function AdminPage() {
               {cuponImpact.revenueTop.map((c) => (
                 <div key={`r-${c.id}`} className="flex items-center justify-between border rounded-lg p-3">
                   <span className="text-sm">{c.id}</span>
-                  <span className="text-sm text-muted-foreground">{formatMoney(c.ingresos)}</span>
+                  <span className="text-sm text-muted-foreground">${formatPrice(c.ingresos)}</span>
                 </div>
               ))}
             </div>
@@ -639,7 +640,7 @@ export default function AdminPage() {
             {clientes.topClientes.map((c, i) => (
               <div key={i} className="flex items-center justify-between border rounded-lg p-3">
                 <span className="text-sm">{c.nombre}</span>
-                <span className="text-sm text-muted-foreground">${Number(c.total).toFixed(2)}</span>
+                <span className="text-sm text-muted-foreground">${formatPrice(Number(c.total))}</span>
               </div>
             ))}
           </div>
@@ -748,4 +749,3 @@ export default function AdminPage() {
     </div>
   );
 }
-  const formatMoney = (v: number) => `$${Number(v).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;

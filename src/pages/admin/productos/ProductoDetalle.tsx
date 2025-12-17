@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 
 import { Leaf, Sparkles, Flame } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { formatPrice } from "@/lib/utils";
 
 export default function ProductoDetalle() {
   const { id } = useParams();
@@ -130,7 +131,7 @@ export default function ProductoDetalle() {
               {/* Price */}
               <div className="mb-8">
                 <p className="text-3xl font-bold text-foreground">
-                  ${producto.precio.toFixed(2)}
+                  ${formatPrice(producto.precio)}
                 </p>
 
                 <p className="text-sm text-muted-foreground">

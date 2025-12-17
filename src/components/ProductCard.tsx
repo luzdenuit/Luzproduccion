@@ -7,6 +7,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 
+import { formatPrice } from "@/lib/utils";
+
 interface ProductCardProps {
   image: string;
   name: string;
@@ -175,11 +177,11 @@ const ProductCard = ({ image, name, fragrance, price, id, hideFavoriteButton }: 
 
             {precioConDescuento ? (
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground line-through">${price.toFixed(2)}</span>
-                <span className="text-primary font-semibold">${precioConDescuento.toFixed(2)}</span>
+                <span className="text-muted-foreground line-through">${formatPrice(price)}</span>
+                <span className="text-primary font-semibold">${formatPrice(precioConDescuento)}</span>
               </div>
             ) : (
-              <p className="text-primary font-semibold">${price.toFixed(2)}</p>
+              <p className="text-primary font-semibold">${formatPrice(price)}</p>
             )}
           </CardContent>
         </Card>

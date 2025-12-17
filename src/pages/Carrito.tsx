@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Trash2, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { formatPrice } from "@/lib/utils";
 
 export default function Carrito() {
   const { cart, removeFromCart, addToCart, clearCart, total } = useCart();
@@ -74,10 +75,10 @@ export default function Carrito() {
                     {item.descuento_pct ? (
                       <div className="flex items-baseline gap-2 mt-1">
                         <span className="text-sm text-muted-foreground line-through">
-                          ${Number(item.precio_original ?? item.precio).toFixed(2)}
+                          ${formatPrice(Number(item.precio_original ?? item.precio))}
                         </span>
                         <span className="text-primary font-semibold">
-                          ${Number(item.precio).toFixed(2)}
+                          ${formatPrice(Number(item.precio))}
                         </span>
                         <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
                           -{Number(item.descuento_pct)}%
@@ -85,7 +86,7 @@ export default function Carrito() {
                       </div>
                     ) : (
                       <p className="text-primary font-semibold mt-1">
-                        ${Number(item.precio).toFixed(2)}
+                        ${formatPrice(Number(item.precio))}
                       </p>
                     )}
 
@@ -110,11 +111,11 @@ export default function Carrito() {
                     </div>
 
                     <p className="mt-2 text-sm text-muted-foreground">
-                      Total: ${Number(item.precio * item.qty).toFixed(2)}
+                      Total: ${formatPrice(Number(item.precio * item.qty))}
                     </p>
                     {item.descuento_pct ? (
                       <p className="text-xs text-green-700 mt-1">
-                        Ahorras ${((Number(item.precio_original ?? item.precio) - Number(item.precio)) * Number(item.qty)).toFixed(2)}
+                        Ahorras ${formatPrice((Number(item.precio_original ?? item.precio) - Number(item.precio)) * Number(item.qty))}
                       </p>
                     ) : null}
                   </div>
@@ -136,12 +137,12 @@ export default function Carrito() {
 
               <div className="flex justify-between mb-2">
                 <p className="text-muted-foreground">Productos ({total})</p>
-                <p className="font-semibold">${totalPrice.toFixed(2)}</p>
+                <p className="font-semibold">${formatPrice(totalPrice)}</p>
               </div>
               {totalSavings > 0 && (
                 <div className="flex justify-between mb-2 text-green-700">
                   <p>Ahorro</p>
-                  <p>- ${totalSavings.toFixed(2)}</p>
+                  <p>- ${formatPrice(totalSavings)}</p>
                 </div>
               )}
 
